@@ -21,7 +21,6 @@ class GameCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final timeFormat = DateFormat('h:mm a');
     final dateFormat = DateFormat('MMM d');
-    final percentFull = game.currentParticipants / game.maxCapacity;
     final isToday = _isToday(game.startTime);
     final isTomorrow = _isTomorrow(game.startTime);
 
@@ -312,24 +311,6 @@ class GameCard extends StatelessWidget {
         ),
       );
     }
-  }
-
-  Widget _infoChip(IconData icon, String text) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      decoration: BoxDecoration(
-        color: Colors.grey[100],
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, color: Colors.grey[500], size: 15),
-          const SizedBox(width: 5),
-          Text(text, style: TextStyle(fontSize: 13, color: Colors.grey[600], fontWeight: FontWeight.w500)),
-        ],
-      ),
-    );
   }
 
   bool _isToday(DateTime date) {
