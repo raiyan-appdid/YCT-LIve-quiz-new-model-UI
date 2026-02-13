@@ -413,7 +413,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              CircularProgressIndicator(color: AppColors.primary),
+              const CircularProgressIndicator(color: AppColors.primary),
               const SizedBox(height: 20),
               Text(
                 game.entryFee > 0 ? 'Processing Payment...' : 'Registering...',
@@ -573,7 +573,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 ),
                                 child: Text(
                                   _getDateLabel(_nextGame!.startTime),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: AppColors.primary,
                                     fontSize: 11,
                                     fontWeight: FontWeight.bold,
@@ -622,8 +622,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
               const SizedBox(height: 24),
 
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Text('Upcoming Games', style: AppTextStyles.heading2),
               ),
 
