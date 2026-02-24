@@ -192,7 +192,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   // ── Live Quiz Feature Banner with live countdown ──
   Widget _buildQuizBanner(BuildContext context) {
     final isLive = _timeLeft.inSeconds <= 0;
-
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -292,9 +291,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                       const SizedBox(height: 2),
                       Text(
                         '${_getDateLabel(_nextGameTime)} • ${DateFormat('h:mm a').format(_nextGameTime)} - ${DateFormat('h:mm a').format(_nextGameEndTime)}',
-                        style: TextStyle(color: Colors.white.withValues(alpha: 0.90
-                        
-                        ), fontSize: 11),
+                        style: TextStyle(color: Colors.white.withValues(alpha: 0.90), fontSize: 11),
                       ),
                     ],
                   ),

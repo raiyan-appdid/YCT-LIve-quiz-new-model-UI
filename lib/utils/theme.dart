@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  // Brand coral palette based on provided logo
   static const Color primary = Color(0xFFFF5A5A); // brand coral
   static const Color primaryVariant = Color(0xFFCC4747); // darker coral
   static const Color secondary = Color(0xFFFF8A80); // light coral accent
