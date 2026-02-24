@@ -11,6 +11,10 @@ class Game {
   final int maxCapacity;
   final int currentParticipants;
   final GameStatus status;
+  final int totalQuestions;
+  final int timePerQuestionSeconds;
+  final int pointsPerCorrectAnswer;
+  final double prizePool;
 
   /// Returns the end time, or startTime + 30 minutes if not provided
   DateTime get endTime => _endTime ?? startTime.add(const Duration(minutes: 30));
@@ -26,6 +30,10 @@ class Game {
     required this.maxCapacity,
     required this.currentParticipants,
     required this.status,
+    this.totalQuestions = 10,
+    this.timePerQuestionSeconds = 10,
+    this.pointsPerCorrectAnswer = 100,
+    this.prizePool = 5000,
   }) : _endTime = endTime;
 }
 
