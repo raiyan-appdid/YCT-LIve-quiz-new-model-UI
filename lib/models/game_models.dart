@@ -1,5 +1,42 @@
 enum GameStatus { upcoming, open, active, completed }
 
+/// Represents the prize amount for a specific rank position
+class PrizeDistribution {
+  final int rank;
+  final double amount;
+
+  PrizeDistribution({required this.rank, required this.amount});
+}
+
+/// Represents a completed game's history entry for the current user
+class GameHistory {
+  final String gameId;
+  final String title;
+  final String imageUrl;
+  final DateTime playedAt;
+  final int rank;
+  final int totalParticipants;
+  final int correctAnswers;
+  final int totalQuestions;
+  final int totalPoints;
+  final double avgResponseTime;
+  final double? prizeWon;
+
+  GameHistory({
+    required this.gameId,
+    required this.title,
+    this.imageUrl = '',
+    required this.playedAt,
+    required this.rank,
+    required this.totalParticipants,
+    required this.correctAnswers,
+    required this.totalQuestions,
+    required this.totalPoints,
+    required this.avgResponseTime,
+    this.prizeWon,
+  });
+}
+
 class Game {
   final String id;
   final String title;
@@ -15,6 +52,10 @@ class Game {
   final int timePerQuestionSeconds;
   final int pointsPerCorrectAnswer;
   final double prizePool;
+  final List<PrizeDistribution>? _prizeDistribution;
+
+  /// Returns the prize distribution list, never null
+  List<PrizeDistribution> get prizeDistribution => _prizeDistribution ?? const [];
 
   /// Returns the end time, or startTime + 30 minutes if not provided
   DateTime get endTime => _endTime ?? startTime.add(const Duration(minutes: 30));
@@ -34,7 +75,9 @@ class Game {
     this.timePerQuestionSeconds = 10,
     this.pointsPerCorrectAnswer = 100,
     this.prizePool = 5000,
-  }) : _endTime = endTime;
+    List<PrizeDistribution>? prizeDistribution,
+  })  : _endTime = endTime,
+        _prizeDistribution = prizeDistribution;
 }
 
 class Question {

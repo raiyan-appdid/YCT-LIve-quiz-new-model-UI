@@ -6,6 +6,7 @@ import '../widgets/game_card.dart';
 import '../utils/theme.dart';
 import 'game_screen.dart';
 import 'game_detail_screen.dart';
+import 'game_history_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -28,6 +29,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
       maxCapacity: 1000,
       currentParticipants: 450,
       status: GameStatus.upcoming,
+      prizeDistribution: [
+        PrizeDistribution(rank: 1, amount: 2000),
+        PrizeDistribution(rank: 2, amount: 1500),
+        PrizeDistribution(rank: 3, amount: 1000),
+        PrizeDistribution(rank: 4, amount: 300),
+        PrizeDistribution(rank: 5, amount: 200),
+      ],
     ),
     Game(
       id: '2',
@@ -40,6 +48,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
       maxCapacity: 2000,
       currentParticipants: 120,
       status: GameStatus.upcoming,
+      prizeDistribution: [
+        PrizeDistribution(rank: 1, amount: 1500),
+        PrizeDistribution(rank: 2, amount: 1000),
+        PrizeDistribution(rank: 3, amount: 500),
+      ],
     ),
     Game(
       id: '3',
@@ -52,6 +65,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
       maxCapacity: 500,
       currentParticipants: 89,
       status: GameStatus.upcoming,
+      prizeDistribution: [
+        PrizeDistribution(rank: 1, amount: 3000),
+        PrizeDistribution(rank: 2, amount: 2000),
+        PrizeDistribution(rank: 3, amount: 1000),
+        PrizeDistribution(rank: 4, amount: 500),
+        PrizeDistribution(rank: 5, amount: 250),
+      ],
     ),
     Game(
       id: '4',
@@ -64,6 +84,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
       maxCapacity: 3000,
       currentParticipants: 1245,
       status: GameStatus.upcoming,
+      prizeDistribution: [
+        PrizeDistribution(rank: 1, amount: 2500),
+        PrizeDistribution(rank: 2, amount: 1500),
+        PrizeDistribution(rank: 3, amount: 750),
+      ],
     ),
     Game(
       id: '5',
@@ -76,6 +101,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
       maxCapacity: 800,
       currentParticipants: 234,
       status: GameStatus.upcoming,
+      prizeDistribution: [
+        PrizeDistribution(rank: 1, amount: 5000),
+        PrizeDistribution(rank: 2, amount: 3000),
+        PrizeDistribution(rank: 3, amount: 1500),
+        PrizeDistribution(rank: 4, amount: 750),
+        PrizeDistribution(rank: 5, amount: 500),
+      ],
     ),
     Game(
       id: '6',
@@ -88,6 +120,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
       maxCapacity: 1500,
       currentParticipants: 678,
       status: GameStatus.upcoming,
+      prizeDistribution: [
+        PrizeDistribution(rank: 1, amount: 2000),
+        PrizeDistribution(rank: 2, amount: 1200),
+        PrizeDistribution(rank: 3, amount: 800),
+      ],
     ),
     Game(
       id: '7',
@@ -100,11 +137,83 @@ class _DashboardScreenState extends State<DashboardScreen> {
       maxCapacity: 600,
       currentParticipants: 45,
       status: GameStatus.upcoming,
+      prizeDistribution: [
+        PrizeDistribution(rank: 1, amount: 1000),
+        PrizeDistribution(rank: 2, amount: 600),
+        PrizeDistribution(rank: 3, amount: 400),
+      ],
     ),
   ];
 
   late Timer _timer;
   final Set<String> _joinedGameIds = {};
+
+  // Mock game history data
+  final List<GameHistory> _gameHistory = [
+    GameHistory(
+      gameId: 'h1',
+      title: 'GK Showdown',
+      imageUrl: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600',
+      playedAt: DateTime.now().subtract(const Duration(days: 1, hours: 3)),
+      rank: 2,
+      totalParticipants: 856,
+      correctAnswers: 8,
+      totalQuestions: 10,
+      totalPoints: 780,
+      avgResponseTime: 3.2,
+      prizeWon: 1500,
+    ),
+    GameHistory(
+      gameId: 'h2',
+      title: 'Bollywood Trivia',
+      imageUrl: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600',
+      playedAt: DateTime.now().subtract(const Duration(days: 2, hours: 5)),
+      rank: 12,
+      totalParticipants: 1200,
+      correctAnswers: 6,
+      totalQuestions: 10,
+      totalPoints: 520,
+      avgResponseTime: 4.1,
+    ),
+    GameHistory(
+      gameId: 'h3',
+      title: 'Science Masters',
+      imageUrl: 'https://images.unsplash.com/photo-1507413245164-6160d8298b31?w=600',
+      playedAt: DateTime.now().subtract(const Duration(days: 4, hours: 8)),
+      rank: 1,
+      totalParticipants: 430,
+      correctAnswers: 10,
+      totalQuestions: 10,
+      totalPoints: 980,
+      avgResponseTime: 2.4,
+      prizeWon: 3000,
+    ),
+    GameHistory(
+      gameId: 'h4',
+      title: 'History Challenge',
+      imageUrl: 'https://images.unsplash.com/photo-1461360370896-922624d12a74?w=600',
+      playedAt: DateTime.now().subtract(const Duration(days: 7)),
+      rank: 5,
+      totalParticipants: 650,
+      correctAnswers: 7,
+      totalQuestions: 10,
+      totalPoints: 640,
+      avgResponseTime: 3.8,
+      prizeWon: 200,
+    ),
+    GameHistory(
+      gameId: 'h5',
+      title: 'Sports Quiz',
+      imageUrl: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=600',
+      playedAt: DateTime.now().subtract(const Duration(days: 10)),
+      rank: 24,
+      totalParticipants: 1500,
+      correctAnswers: 5,
+      totalQuestions: 10,
+      totalPoints: 380,
+      avgResponseTime: 5.0,
+    ),
+  ];
 
   Game? get _nextGame {
     final now = DateTime.now();
@@ -205,6 +314,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
     } else {
       return DateFormat('EEE, MMM d').format(date);
     }
+  }
+
+  String _formatHistoryDate(DateTime date) {
+    final diff = DateTime.now().difference(date);
+    if (diff.inDays == 0) return 'Today';
+    if (diff.inDays == 1) return 'Yesterday';
+    if (diff.inDays < 7) return '${diff.inDays} days ago';
+    return DateFormat('MMM d').format(date);
   }
 
   Widget _infoPill({required IconData icon, required String text}) {
@@ -510,6 +627,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
         title: const Text('YCT Quiz', style: TextStyle(fontWeight: FontWeight.bold)),
         backgroundColor: AppColors.primary,
         elevation: 0,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.history_rounded),
+            tooltip: 'My Game History',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => GameHistoryScreen(history: _gameHistory),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -626,6 +757,176 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         ],
                       ),
               ),
+
+              const SizedBox(height: 24),
+
+              // ── Recent Game History Quick Access ──
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('My Recent Games', style: AppTextStyles.heading2),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => GameHistoryScreen(history: _gameHistory),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        'See All',
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 8),
+              if (_gameHistory.isEmpty)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(24),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(color: Colors.grey.shade200),
+                    ),
+                    child: Column(
+                      children: [
+                        Icon(Icons.sports_esports_rounded, size: 36, color: Colors.grey.shade300),
+                        const SizedBox(height: 8),
+                        Text(
+                          'No games played yet',
+                          style: TextStyle(fontSize: 14, color: Colors.grey.shade500, fontWeight: FontWeight.w500),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              else
+                SizedBox(
+                  height: 130,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    itemCount: _gameHistory.length > 5 ? 5 : _gameHistory.length,
+                    separatorBuilder: (_, __) => const SizedBox(width: 12),
+                    itemBuilder: (context, index) {
+                      final h = _gameHistory[index];
+                      final isWinner = h.prizeWon != null && h.prizeWon! > 0;
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => GameHistoryScreen(history: _gameHistory),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          width: 160,
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(14),
+                            border: isWinner ? Border.all(color: AppColors.correct.withValues(alpha: 0.3)) : Border.all(color: Colors.grey.shade200),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.04),
+                                blurRadius: 6,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 30,
+                                    height: 30,
+                                    decoration: BoxDecoration(
+                                      color: h.rank <= 3 ? Colors.amber.withValues(alpha: 0.15) : Colors.grey.shade100,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Center(
+                                      child: h.rank <= 3
+                                          ? Icon(Icons.emoji_events_rounded,
+                                              size: 16,
+                                              color: h.rank == 1
+                                                  ? const Color(0xFFFFD700)
+                                                  : h.rank == 2
+                                                      ? const Color(0xFFC0C0C0)
+                                                      : const Color(0xFFCD7F32))
+                                          : Text(
+                                              '#${h.rank}',
+                                              style: TextStyle(
+                                                fontSize: 11,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.grey.shade600,
+                                              ),
+                                            ),
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  if (isWinner)
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                      decoration: BoxDecoration(
+                                        color: AppColors.correct.withValues(alpha: 0.1),
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                      child: Text(
+                                        '+₹${h.prizeWon!.toStringAsFixed(0)}',
+                                        style: const TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold,
+                                          color: AppColors.correct,
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+                              Text(
+                                h.title,
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.onBackground,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                '${h.correctAnswers}/${h.totalQuestions} correct • ${h.totalPoints} pts',
+                                style: TextStyle(fontSize: 11, color: Colors.grey.shade500),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              const Spacer(),
+                              Text(
+                                _formatHistoryDate(h.playedAt),
+                                style: TextStyle(fontSize: 10, color: Colors.grey.shade400),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
 
               const SizedBox(height: 24),
 
