@@ -324,6 +324,24 @@ class GameDetailScreen extends StatelessWidget {
                     text: 'Final rankings are based on total points. Ties are broken by average response time.',
                     color: Colors.indigo,
                   ),
+                  _RuleItem(
+                    number: 8,
+                    icon: Icons.schedule_rounded,
+                    text: 'Joining the game is allowed only until 5 minutes before the start time. For example, if the game starts at 8:00 PM, you must join by 7:55 PM. No entries will be accepted after that.',
+                    color: Colors.deepPurple,
+                  ),
+                  _RuleItem(
+                    number: 9,
+                    icon: Icons.timer_off_rounded,
+                    text: 'You must start the game within 5 minutes of the scheduled start time. For example, if the game starts at 8:00 PM, you have until 8:05 PM to begin. Starting the game after that will not be possible.',
+                    color: Colors.red.shade700,
+                  ),
+                  _RuleItem(
+                    number: 10,
+                    icon: Icons.account_balance_wallet_rounded,
+                    text: 'Prize winnings will be credited to your wallet only after the game time has ended and final results are calculated.',
+                    color: AppColors.correct,
+                  ),
 
                   const SizedBox(height: 100), // space for FAB
                 ],
