@@ -5,6 +5,7 @@ import '../models/game_models.dart';
 import '../widgets/game_card.dart';
 import '../utils/theme.dart';
 import 'game_screen.dart';
+import 'game_detail_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -232,12 +233,25 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final hasJoined = _joinedGameIds.contains(game.id);
     final canStart = _timeUntilNextGame.inSeconds <= 0;
 
+    void openDetail() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => GameDetailScreen(
+            game: game,
+            hasJoined: hasJoined,
+            onJoin: () => _handleJoinGame(game),
+          ),
+        ),
+      );
+    }
+
     if (!hasJoined) {
       // Show "Join Game" button
       return SizedBox(
         width: double.infinity,
         child: ElevatedButton.icon(
-          onPressed: () => _handleJoinGame(game),
+          onPressed: openDetail,
           icon: Icon(
             game.entryFee > 0 ? Icons.account_balance_wallet : Icons.sports_esports,
             size: 18,
@@ -260,14 +274,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       return SizedBox(
         width: double.infinity,
         child: ElevatedButton.icon(
-          onPressed: canStart
-              ? () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => GameScreen(game: game)),
-                  );
-                }
-              : null,
+          onPressed: canStart ? openDetail : null,
           icon: Icon(
             canStart ? Icons.play_arrow_rounded : Icons.lock_clock,
             size: 18,
@@ -635,16 +642,25 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 itemCount: upcomingGames.length,
                 itemBuilder: (context, index) {
                   final game = upcomingGames[index];
+                  void openDetail() {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => GameDetailScreen(
+                          game: game,
+                          hasJoined: _joinedGameIds.contains(game.id),
+                          onJoin: () => _handleJoinGame(game),
+                        ),
+                      ),
+                    );
+                  }
+
                   return GameCard(
                     game: game,
                     hasJoined: _joinedGameIds.contains(game.id),
-                    onJoin: () => _handleJoinGame(game),
-                    onStart: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => GameScreen(game: game)),
-                      );
-                    },
+                    onJoin: openDetail,
+                    onTap: openDetail,
+                    onStart: openDetail,
                   );
                 },
               ),
