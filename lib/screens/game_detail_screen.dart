@@ -269,7 +269,15 @@ class GameDetailScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 16),
+
+                  // ─── Prize Distribution Card ───
+                  if ((game.prizeDistribution).isNotEmpty) ...[
+                    _PrizeDistributionCard(prizes: game.prizeDistribution),
+                    const SizedBox(height: 16),
+                  ],
+
+                  const SizedBox(height: 8),
 
                   // ─── Rules Section ───
                   const Text('Game Rules', style: AppTextStyles.heading3),
@@ -315,6 +323,24 @@ class GameDetailScreen extends StatelessWidget {
                     icon: Icons.leaderboard_rounded,
                     text: 'Final rankings are based on total points. Ties are broken by average response time.',
                     color: Colors.indigo,
+                  ),
+                  _RuleItem(
+                    number: 8,
+                    icon: Icons.schedule_rounded,
+                    text: 'Joining the game is allowed only until 5 minutes before the start time. For example, if the game starts at 8:00 PM, you must join by 7:55 PM. No entries will be accepted after that.',
+                    color: Colors.deepPurple,
+                  ),
+                  _RuleItem(
+                    number: 9,
+                    icon: Icons.timer_off_rounded,
+                    text: 'You must start the game within 5 minutes of the scheduled start time. For example, if the game starts at 8:00 PM, you have until 8:05 PM to begin. Starting the game after that will not be possible.',
+                    color: Colors.red.shade700,
+                  ),
+                  _RuleItem(
+                    number: 10,
+                    icon: Icons.account_balance_wallet_rounded,
+                    text: 'Prize winnings will be credited to your wallet only after the game time has ended and final results are calculated.',
+                    color: AppColors.correct,
                   ),
 
                   const SizedBox(height: 100), // space for FAB
@@ -478,6 +504,191 @@ class _StatTile extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class _PrizeDistributionCard extends StatelessWidget {
+  final List<PrizeDistribution> prizes;
+  const _PrizeDistributionCard({required this.prizes});
+
+  @override
+  Widget build(BuildContext context) {
+    // Medal colours for top 3
+    const rankColors = [
+      Color(0xFFFFD700), // Gold
+      Color(0xFFC0C0C0), // Silver
+      Color(0xFFCD7F32), // Bronze
+    ];
+    const rankIcons = [
+      Icons.emoji_events_rounded,
+      Icons.emoji_events_rounded,
+      Icons.emoji_events_rounded,
+    ];
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: Colors.grey.shade200),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header
+          Row(
+            children: [
+              Container(
+                width: 36,
+                height: 36,
+                decoration: BoxDecoration(
+                  color: Colors.amber.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(Icons.workspace_premium, color: Colors.amber.shade700, size: 20),
+              ),
+              const SizedBox(width: 12),
+              const Expanded(
+                child: Text(
+                  'Win Prizes!',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.onBackground,
+                  ),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(
+                  color: AppColors.correct.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  'Credited to Wallet',
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.correct,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Text(
+            'Top ${prizes.length} players win cash prizes!',
+            style: TextStyle(fontSize: 12, color: Colors.grey.shade500),
+          ),
+          const SizedBox(height: 14),
+
+          // Prize rows
+          ...List.generate(prizes.length, (i) {
+            final prize = prizes[i];
+            final isTop3 = i < 3;
+            final color = isTop3 ? rankColors[i] : Colors.grey.shade400;
+            final bgColor = isTop3 ? color.withValues(alpha: 0.12) : Colors.grey.shade50;
+
+            return Container(
+              margin: EdgeInsets.only(bottom: i < prizes.length - 1 ? 8 : 0),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+              decoration: BoxDecoration(
+                color: bgColor,
+                borderRadius: BorderRadius.circular(12),
+                border: isTop3 ? Border.all(color: color.withValues(alpha: 0.3), width: 1) : Border.all(color: Colors.grey.shade200),
+              ),
+              child: Row(
+                children: [
+                  // Rank badge
+                  Container(
+                    width: 36,
+                    height: 36,
+                    decoration: BoxDecoration(
+                      color: isTop3 ? color.withValues(alpha: 0.2) : Colors.grey.shade200,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Center(
+                      child: isTop3
+                          ? Icon(rankIcons[i], color: color, size: 20)
+                          : Text(
+                              '#${prize.rank}',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
+                                color: Colors.grey.shade600,
+                              ),
+                            ),
+                    ),
+                  ),
+                  const SizedBox(width: 14),
+                  // Rank label
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          _rankLabel(prize.rank),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 14,
+                            color: isTop3 ? AppColors.onBackground : Colors.grey.shade700,
+                          ),
+                        ),
+                        Text(
+                          'Rank ${prize.rank}',
+                          style: TextStyle(fontSize: 11, color: Colors.grey.shade500),
+                        ),
+                      ],
+                    ),
+                  ),
+                  // Amount
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: isTop3 ? color.withValues(alpha: 0.15) : Colors.grey.shade100,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      '₹${prize.amount.toStringAsFixed(0)}',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: isTop3
+                            ? color.computeLuminance() > 0.5
+                                ? Colors.amber.shade900
+                                : color
+                            : Colors.grey.shade700,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }),
+        ],
+      ),
+    );
+  }
+
+  String _rankLabel(int rank) {
+    switch (rank) {
+      case 1:
+        return '1st Place \u{1F3C6}';
+      case 2:
+        return '2nd Place \u{1F948}';
+      case 3:
+        return '3rd Place \u{1F949}';
+      default:
+        return '${rank}th Place';
+    }
   }
 }
 
