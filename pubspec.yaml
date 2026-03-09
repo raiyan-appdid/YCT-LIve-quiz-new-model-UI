@@ -13,6 +13,7 @@ dependencies:
   intl: 
   google_fonts: ^6.1.0
   device_preview: ^1.2.0
+  audioplayers: ^6.1.0
 
 dev_dependencies:
   flutter_test:
@@ -21,3 +22,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/audio/

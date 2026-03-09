@@ -11,13 +11,14 @@ class GameHistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: LiveQuizColors.black,
       appBar: AppBar(
         title: const Text(
           'My Game History',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        backgroundColor: AppColors.primary,
+        backgroundColor: LiveQuizColors.blackSoft,
+        foregroundColor: LiveQuizColors.gold,
         elevation: 0,
       ),
       body: history.isEmpty
@@ -25,20 +26,20 @@ class GameHistoryScreen extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.history_rounded, size: 64, color: Colors.grey.shade300),
+                  const Icon(Icons.history_rounded, size: 64, color: LiveQuizColors.textMuted),
                   const SizedBox(height: 16),
-                  Text(
+                  const Text(
                     'No games played yet',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
-                      color: Colors.grey.shade500,
+                      color: LiveQuizColors.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 6),
-                  Text(
+                  const Text(
                     'Join a live quiz to see your history here!',
-                    style: TextStyle(fontSize: 13, color: Colors.grey.shade400),
+                    style: TextStyle(fontSize: 13, color: LiveQuizColors.textMuted),
                   ),
                 ],
               ),
@@ -73,7 +74,7 @@ class GameHistoryScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [AppColors.primary, AppColors.primaryVariant],
+          colors: [LiveQuizColors.blackSoft, Color(0xFF332400), LiveQuizColors.black],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
@@ -188,14 +189,14 @@ class _GameHistoryCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: LiveQuizColors.panel,
         borderRadius: BorderRadius.circular(16),
         border: isWinner
             ? Border.all(
-                color: AppColors.correct.withValues(alpha: 0.3),
+                color: LiveQuizColors.success.withValues(alpha: 0.4),
                 width: 1.5,
               )
-            : Border.all(color: Colors.grey.shade200),
+            : Border.all(color: LiveQuizColors.gold.withValues(alpha: 0.2)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.04),
@@ -219,16 +220,16 @@ class _GameHistoryCard extends StatelessWidget {
                           entry.imageUrl,
                           fit: BoxFit.cover,
                           errorBuilder: (_, __, ___) => Container(
-                            color: AppColors.primary.withValues(alpha: 0.15),
+                            color: LiveQuizColors.blackSoft,
                             child: const Center(
-                              child: Icon(Icons.quiz, size: 36, color: AppColors.primary),
+                              child: Icon(Icons.quiz, size: 36, color: LiveQuizColors.gold),
                             ),
                           ),
                         )
                       : Container(
-                          color: AppColors.primary.withValues(alpha: 0.15),
+                          color: LiveQuizColors.blackSoft,
                           child: const Center(
-                            child: Icon(Icons.quiz, size: 36, color: AppColors.primary),
+                            child: Icon(Icons.quiz, size: 36, color: LiveQuizColors.gold),
                           ),
                         ),
                 ),
@@ -283,7 +284,7 @@ class _GameHistoryCard extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: BoxDecoration(
-                      color: rankColor ?? AppColors.primary,
+                      color: rankColor ?? LiveQuizColors.gold,
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Row(
@@ -313,7 +314,7 @@ class _GameHistoryCard extends StatelessWidget {
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                       decoration: BoxDecoration(
-                        color: AppColors.correct,
+                        color: LiveQuizColors.success,
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Row(
@@ -351,7 +352,7 @@ class _GameHistoryCard extends StatelessWidget {
                 _StatChip(
                   icon: Icons.check_circle_outline,
                   label: '${entry.correctAnswers}/${entry.totalQuestions} ($accuracy%)',
-                  color: AppColors.correct,
+                  color: LiveQuizColors.success,
                 ),
                 const SizedBox(width: 8),
                 _StatChip(
@@ -372,14 +373,14 @@ class _GameHistoryCard extends StatelessWidget {
                 const SizedBox(width: 5),
                 Text(
                   DateFormat('MMM d, yyyy • h:mm a').format(entry.playedAt),
-                  style: TextStyle(fontSize: 12, color: Colors.grey.shade500),
+                  style: const TextStyle(fontSize: 12, color: LiveQuizColors.textMuted),
                 ),
                 const Spacer(),
                 Icon(Icons.people_alt_outlined, size: 13, color: Colors.grey.shade400),
                 const SizedBox(width: 4),
                 Text(
                   '${entry.totalParticipants} players',
-                  style: TextStyle(fontSize: 12, color: Colors.grey.shade500),
+                  style: const TextStyle(fontSize: 12, color: LiveQuizColors.textMuted),
                 ),
               ],
             ),

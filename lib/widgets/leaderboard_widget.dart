@@ -20,9 +20,9 @@ class LeaderboardWidget extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Row(
             children: [
-              Icon(Icons.emoji_events, color: Colors.amber[700], size: 22),
+              const Icon(Icons.emoji_events, color: LiveQuizColors.gold, size: 22),
               const SizedBox(width: 8),
-              const Text('Leaderboard', style: AppTextStyles.heading2),
+              const Text('Leaderboard', style: TextStyle(color: LiveQuizColors.textPrimary, fontSize: 24, fontWeight: FontWeight.bold)),
             ],
           ),
         ),
@@ -38,8 +38,8 @@ class LeaderboardWidget extends StatelessWidget {
         if (currentUserEntry != null) ...[
           Container(
             decoration: BoxDecoration(
-              color: AppColors.primary.withValues(alpha: 0.08),
-              border: Border(top: BorderSide(color: Colors.grey[200]!)),
+              color: LiveQuizColors.panel,
+              border: Border(top: BorderSide(color: LiveQuizColors.gold.withValues(alpha: 0.2))),
             ),
             child: _buildRankItem(currentUserEntry!, currentUserEntry!.rank, isCurrentUser: true),
           ),
@@ -62,9 +62,12 @@ class LeaderboardWidget extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
-        color: isCurrentUser ? AppColors.primary.withValues(alpha: 0.06) : Colors.white,
+        color: isCurrentUser ? LiveQuizColors.blackSoft : LiveQuizColors.panel,
         borderRadius: BorderRadius.circular(10),
-        border: isCurrentUser ? Border.all(color: AppColors.primary.withValues(alpha: 0.3), width: 1.5) : null,
+        border: Border.all(
+          color: isCurrentUser ? LiveQuizColors.gold.withValues(alpha: 0.45) : LiveQuizColors.gold.withValues(alpha: 0.2),
+          width: isCurrentUser ? 1.5 : 1,
+        ),
       ),
       child: Row(
         children: [
@@ -82,7 +85,7 @@ class LeaderboardWidget extends StatelessWidget {
               entry.user.name,
               style: AppTextStyles.body1.copyWith(
                 fontWeight: isCurrentUser ? FontWeight.bold : FontWeight.w500,
-                color: isCurrentUser ? AppColors.primary : AppColors.onSurface,
+                color: isCurrentUser ? LiveQuizColors.gold : LiveQuizColors.textPrimary,
               ),
             ),
           ),
@@ -91,15 +94,15 @@ class LeaderboardWidget extends StatelessWidget {
             children: [
               Text(
                 '${entry.totalPoints} pts',
-                style: TextStyle(
-                  color: AppColors.primary,
+                style: const TextStyle(
+                  color: LiveQuizColors.gold,
                   fontWeight: FontWeight.bold,
                   fontSize: 14,
                 ),
               ),
               Text(
                 '${entry.avgResponseTime.toStringAsFixed(1)}s',
-                style: TextStyle(color: Colors.grey[500], fontSize: 12),
+                style: const TextStyle(color: LiveQuizColors.textMuted, fontSize: 12),
               ),
             ],
           ),

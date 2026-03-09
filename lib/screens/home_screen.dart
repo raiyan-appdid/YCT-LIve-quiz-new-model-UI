@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';
 import '../utils/theme.dart';
+import '../widgets/live_badge.dart';
+import '../widgets/new_badge.dart';
 import 'dashboard_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -205,16 +207,17 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           gradient: const LinearGradient(
-            colors: [AppColors.primary, AppColors.primaryVariant],
+            colors: [LiveQuizColors.black, LiveQuizColors.blackSoft, Color(0xFF2B2100)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
           borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: LiveQuizColors.gold.withValues(alpha: 0.5), width: 1.2),
           boxShadow: [
             BoxShadow(
-              color: AppColors.primary.withValues(alpha: 0.35),
-              blurRadius: 14,
-              offset: const Offset(0, 5),
+              color: Colors.black.withValues(alpha: 0.5),
+              blurRadius: 18,
+              offset: const Offset(0, 8),
             ),
           ],
         ),
@@ -244,57 +247,22 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                             style: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(width: 8),
-                          // Pulsing LIVE dot or NEW badge
-                          if (isLive)
-                            FadeTransition(
-                              opacity: _pulseAnimation,
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                                decoration: BoxDecoration(
-                                  color: Colors.greenAccent.shade400,
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Container(
-                                      width: 6,
-                                      height: 6,
-                                      decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-                                    ),
-                                    const SizedBox(width: 4),
-                                    const Text('LIVE', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w800)),
-                                  ],
-                                ),
-                              ),
-                            )
-                          else
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.25),
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                              child: const Text(
-                                'NEW',
-                                style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w800, letterSpacing: 0.8),
-                              ),
-                            ),
+                          const LiveBadge(),
+                          const SizedBox(width: 6),
+                          const NewBadge(),
                         ],
                       ),
                       const SizedBox(height: 2),
                       Text(
                         _nextGameTitle,
-                        style: TextStyle(color: Colors.white.withValues(alpha: 0.80), fontSize: 12),
+                        style: TextStyle(color: LiveQuizColors.textMuted, fontSize: 12),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 2),
                       Text(
                         '${_getDateLabel(_nextGameTime)} • ${DateFormat('h:mm a').format(_nextGameTime)} - ${DateFormat('h:mm a').format(_nextGameEndTime)}',
-                        style: TextStyle(color: Colors.white.withValues(alpha: 0.90
-                        
-                        ), fontSize: 11),
+                        style: const TextStyle(color: LiveQuizColors.textPrimary, fontSize: 11),
                       ),
                     ],
                   ),
@@ -306,15 +274,16 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.12),
+                color: Colors.black.withValues(alpha: 0.24),
                 borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: LiveQuizColors.gold.withValues(alpha: 0.25)),
               ),
               child: Row(
                 children: [
                   // Timer icon
                   Icon(
                     isLive ? Icons.play_circle_fill_rounded : Icons.timer_rounded,
-                    color: isLive ? Colors.greenAccent.shade200 : Colors.amber.shade300,
+                    color: isLive ? LiveQuizColors.success : LiveQuizColors.goldSoft,
                     size: 22,
                   ),
                   const SizedBox(width: 10),
@@ -325,13 +294,13 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                       children: [
                         Text(
                           isLive ? 'Game is live — join now!' : 'Next game starts in',
-                          style: TextStyle(color: Colors.white.withValues(alpha: 0.90), fontSize: 11),
+                          style: const TextStyle(color: LiveQuizColors.textMuted, fontSize: 11),
                         ),
                         const SizedBox(height: 2),
                         Text(
                           _countdownText,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: LiveQuizColors.gold,
                             fontSize: isLive ? 16 : 20,
                             fontWeight: FontWeight.bold,
                             fontFamily: 'monospace',
@@ -345,13 +314,17 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      gradient: const LinearGradient(
+                        colors: [LiveQuizColors.gold, LiveQuizColors.goldDeep],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(
                       isLive ? 'Play' : 'View',
-                      style: TextStyle(
-                        color: AppColors.primary,
+                      style: const TextStyle(
+                        color: LiveQuizColors.black,
                         fontSize: 13,
                         fontWeight: FontWeight.bold,
                       ),
