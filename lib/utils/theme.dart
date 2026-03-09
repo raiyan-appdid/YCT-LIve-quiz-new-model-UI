@@ -19,6 +19,20 @@ class AppColors {
   static const Color timer = Color(0xFFFFB74D);
 }
 
+class LiveQuizColors {
+  static const Color gold = Color(0xFFFFC107);
+  static const Color goldDeep = Color(0xFFFFA000);
+  static const Color goldSoft = Color(0xFFFFE082);
+  static const Color black = Color(0xFF090909);
+  static const Color blackSoft = Color(0xFF151515);
+  static const Color panel = Color(0xFF1D1D1D);
+  static const Color panelAlt = Color(0xFF262626);
+  static const Color textPrimary = Color(0xFFFFF7E0);
+  static const Color textMuted = Color(0xFFE0CFA3);
+  static const Color success = Color(0xFF69F0AE);
+  static const Color danger = Color(0xFFFF6E6E);
+}
+
 class AppTextStyles {
   static const TextStyle heading1 = TextStyle(
     fontSize: 28,

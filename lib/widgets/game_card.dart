@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/game_models.dart';
 import '../utils/theme.dart';
+import 'live_badge.dart';
 
 class GameCard extends StatelessWidget {
   final Game game;
@@ -25,6 +26,8 @@ class GameCard extends StatelessWidget {
     final dateFormat = DateFormat('MMM d');
     final isToday = _isToday(game.startTime);
     final isTomorrow = _isTomorrow(game.startTime);
+    final now = DateTime.now();
+    final isLiveNow = game.startTime.isBefore(now) && game.endTime.isAfter(now);
 
     String dateLabel;
     if (isToday) {
@@ -38,14 +41,14 @@ class GameCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Card(
-        color: Colors.white,
+        color: LiveQuizColors.panel,
         margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
         elevation: 4,
         shadowColor: Colors.black26,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
           side: BorderSide(
-            color: Colors.grey.shade300,
+            color: LiveQuizColors.gold.withValues(alpha: 0.2),
             width: 1,
           ),
         ),
@@ -79,28 +82,35 @@ class GameCard extends StatelessWidget {
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
-                        color: game.entryFee == 0 ? AppColors.correct : AppColors.primary,
+                        color: game.entryFee == 0 ? LiveQuizColors.success : LiveQuizColors.gold,
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
                         game.entryFee == 0 ? 'FREE' : '₹${game.entryFee.toStringAsFixed(2)}',
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          color: LiveQuizColors.black,
                           fontSize: 13,
                         ),
                       ),
                     ),
                   ),
-                  // Joined badge overlay
+                  // LIVE badge overlay
+                  if (isLiveNow)
+                    const Positioned(
+                      top: 10,
+                      left: 10,
+                      child: LiveBadge(),
+                    ),
+                  // Joined badge overlay (shifted down when live)
                   if (hasJoined)
                     Positioned(
-                      top: 10,
+                      top: isLiveNow ? 46 : 10,
                       left: 10,
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                         decoration: BoxDecoration(
-                          color: AppColors.correct,
+                          color: LiveQuizColors.success,
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: const Row(
@@ -129,12 +139,12 @@ class GameCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Title
-                  Text(game.title, style: AppTextStyles.heading3),
+                  Text(game.title, style: AppTextStyles.heading3.copyWith(color: LiveQuizColors.textPrimary)),
                   if (game.description.isNotEmpty) ...[
                     const SizedBox(height: 6),
                     Text(
                       game.description,
-                      style: AppTextStyles.body2,
+                      style: AppTextStyles.body2.copyWith(color: LiveQuizColors.textMuted),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -145,9 +155,9 @@ class GameCard extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: AppColors.primary.withValues(alpha: 0.06),
+                      color: LiveQuizColors.blackSoft,
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: AppColors.primary.withValues(alpha: 0.12)),
+                      border: Border.all(color: LiveQuizColors.gold.withValues(alpha: 0.25)),
                     ),
                     child: Row(
                       children: [
@@ -155,7 +165,7 @@ class GameCard extends StatelessWidget {
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                           decoration: BoxDecoration(
-                            color: AppColors.primary,
+                            color: LiveQuizColors.gold,
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Column(
@@ -163,7 +173,7 @@ class GameCard extends StatelessWidget {
                               Text(
                                 dateLabel,
                                 style: const TextStyle(
-                                  color: Colors.white,
+                                  color: LiveQuizColors.black,
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -172,7 +182,7 @@ class GameCard extends StatelessWidget {
                                 Text(
                                   DateFormat('yyyy').format(game.startTime),
                                   style: TextStyle(
-                                    color: Colors.white.withValues(alpha: 0.7),
+                                    color: LiveQuizColors.black.withValues(alpha: 0.7),
                                     fontSize: 10,
                                   ),
                                 ),
@@ -190,7 +200,7 @@ class GameCard extends StatelessWidget {
                                 style: const TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
-                                  color: AppColors.onBackground,
+                                  color: LiveQuizColors.textPrimary,
                                 ),
                               ),
                               const SizedBox(height: 2),
@@ -198,7 +208,7 @@ class GameCard extends StatelessWidget {
                                 'Duration: ${game.endTime.difference(game.startTime).inMinutes} min',
                                 style: TextStyle(
                                   fontSize: 11,
-                                  color: Colors.grey[600],
+                                  color: LiveQuizColors.textMuted,
                                 ),
                               ),
                             ],
@@ -208,17 +218,17 @@ class GameCard extends StatelessWidget {
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                           decoration: BoxDecoration(
-                            color: Colors.grey[100],
+                            color: LiveQuizColors.panelAlt,
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(Icons.people, size: 14, color: Colors.grey[600]),
+                              const Icon(Icons.people, size: 14, color: LiveQuizColors.textMuted),
                               const SizedBox(width: 4),
                               Text(
                                 '${game.currentParticipants}/${game.maxCapacity}',
-                                style: TextStyle(fontSize: 12, color: Colors.grey[700], fontWeight: FontWeight.w500),
+                                style: const TextStyle(fontSize: 12, color: LiveQuizColors.textMuted, fontWeight: FontWeight.w500),
                               ),
                             ],
                           ),
@@ -265,8 +275,8 @@ class GameCard extends StatelessWidget {
         child: ElevatedButton(
           onPressed: onJoin,
           style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.primary,
-            foregroundColor: Colors.white,
+            backgroundColor: LiveQuizColors.gold,
+            foregroundColor: LiveQuizColors.black,
             padding: const EdgeInsets.symmetric(vertical: 14),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
@@ -303,10 +313,10 @@ class GameCard extends StatelessWidget {
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
           ),
           style: ElevatedButton.styleFrom(
-            backgroundColor: canStart ? AppColors.correct : Colors.grey.shade300,
-            foregroundColor: canStart ? Colors.white : Colors.grey.shade600,
-            disabledBackgroundColor: Colors.grey.shade200,
-            disabledForegroundColor: Colors.grey.shade500,
+            backgroundColor: canStart ? LiveQuizColors.success : LiveQuizColors.panelAlt,
+            foregroundColor: canStart ? LiveQuizColors.black : LiveQuizColors.textMuted,
+            disabledBackgroundColor: LiveQuizColors.panelAlt,
+            disabledForegroundColor: LiveQuizColors.textMuted,
             padding: const EdgeInsets.symmetric(vertical: 14),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),

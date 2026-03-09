@@ -24,15 +24,15 @@ class GameDetailScreen extends StatelessWidget {
     final percentFull = game.currentParticipants / game.maxCapacity;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: LiveQuizColors.black,
       body: CustomScrollView(
         slivers: [
           // ─── Collapsing App Bar with image ───
           SliverAppBar(
             expandedHeight: 220,
             pinned: true,
-            backgroundColor: AppColors.primary,
-            foregroundColor: Colors.white,
+            backgroundColor: LiveQuizColors.blackSoft,
+            foregroundColor: LiveQuizColors.gold,
             leading: IconButton(
               icon: Container(
                 padding: const EdgeInsets.all(6),
@@ -53,14 +53,14 @@ class GameDetailScreen extends StatelessWidget {
                           game.imageUrl,
                           fit: BoxFit.cover,
                           errorBuilder: (_, __, ___) => Container(
-                            color: AppColors.primary,
+                            color: LiveQuizColors.blackSoft,
                             child: const Center(
                               child: Icon(Icons.quiz, size: 60, color: Colors.white54),
                             ),
                           ),
                         )
                       : Container(
-                          color: AppColors.primary,
+                          color: LiveQuizColors.blackSoft,
                           child: const Center(
                             child: Icon(Icons.quiz, size: 60, color: Colors.white54),
                           ),
@@ -85,14 +85,14 @@ class GameDetailScreen extends StatelessWidget {
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
                       decoration: BoxDecoration(
-                        color: game.entryFee == 0 ? AppColors.correct : AppColors.primary,
+                        color: game.entryFee == 0 ? LiveQuizColors.success : LiveQuizColors.gold,
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
                         game.entryFee == 0 ? 'FREE' : '₹${game.entryFee.toStringAsFixed(0)}',
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          color: LiveQuizColors.black,
                           fontSize: 14,
                         ),
                       ),
@@ -111,7 +111,7 @@ class GameDetailScreen extends StatelessWidget {
                             margin: const EdgeInsets.only(bottom: 8),
                             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                             decoration: BoxDecoration(
-                              color: AppColors.correct,
+                              color: LiveQuizColors.success,
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: const Row(
@@ -133,7 +133,7 @@ class GameDetailScreen extends StatelessWidget {
                         Text(
                           game.title,
                           style: const TextStyle(
-                            color: Colors.white,
+                            color: LiveQuizColors.textPrimary,
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                           ),
@@ -155,7 +155,7 @@ class GameDetailScreen extends StatelessWidget {
                 children: [
                   // Description
                   if (game.description.isNotEmpty) ...[
-                    Text(game.description, style: AppTextStyles.body1.copyWith(height: 1.5)),
+                    Text(game.description, style: AppTextStyles.body1.copyWith(height: 1.5, color: LiveQuizColors.textMuted)),
                     const SizedBox(height: 20),
                   ],
 
@@ -164,7 +164,7 @@ class GameDetailScreen extends StatelessWidget {
                     children: [
                       _DetailRow(
                         icon: Icons.calendar_today,
-                        iconColor: AppColors.primary,
+                        iconColor: LiveQuizColors.gold,
                         label: 'Date',
                         value: dateFormat.format(game.startTime),
                       ),
@@ -194,7 +194,7 @@ class GameDetailScreen extends StatelessWidget {
                           Expanded(
                             child: _StatTile(
                               icon: Icons.help_outline_rounded,
-                              iconColor: AppColors.primary,
+                              iconColor: LiveQuizColors.gold,
                               label: 'Questions',
                               value: '${game.totalQuestions}',
                             ),
@@ -247,7 +247,7 @@ class GameDetailScreen extends StatelessWidget {
                           value: percentFull,
                           backgroundColor: Colors.grey.shade200,
                           valueColor: AlwaysStoppedAnimation<Color>(
-                            percentFull > 0.9 ? AppColors.error : AppColors.primary,
+                            percentFull > 0.9 ? LiveQuizColors.danger : LiveQuizColors.gold,
                           ),
                           minHeight: 6,
                         ),
@@ -280,7 +280,7 @@ class GameDetailScreen extends StatelessWidget {
                   const SizedBox(height: 8),
 
                   // ─── Rules Section ───
-                  const Text('Game Rules', style: AppTextStyles.heading3),
+                  const Text('Game Rules', style: TextStyle(color: LiveQuizColors.textPrimary, fontSize: 20, fontWeight: FontWeight.w600)),
                   const SizedBox(height: 12),
                   _RuleItem(
                     number: 1,
@@ -298,7 +298,7 @@ class GameDetailScreen extends StatelessWidget {
                     number: 3,
                     icon: Icons.lock_outline,
                     text: 'Once you select an answer, it is final — you cannot change or undo it.',
-                    color: AppColors.primary,
+                    color: LiveQuizColors.gold,
                   ),
                   _RuleItem(
                     number: 4,
@@ -381,9 +381,9 @@ class _SectionCard extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: LiveQuizColors.panel,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: LiveQuizColors.gold.withValues(alpha: 0.2)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.04),
@@ -406,7 +406,7 @@ class _CardDivider extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Divider(height: 1, color: Colors.grey.shade200),
+      child: Divider(height: 1, color: LiveQuizColors.gold.withValues(alpha: 0.18)),
     );
   }
 }
@@ -448,7 +448,7 @@ class _DetailRow extends StatelessWidget {
                 label,
                 style: TextStyle(
                   fontSize: 11,
-                  color: Colors.grey.shade500,
+                  color: LiveQuizColors.textMuted,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -458,7 +458,7 @@ class _DetailRow extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.onBackground,
+                  color: LiveQuizColors.textPrimary,
                 ),
               ),
             ],
@@ -494,13 +494,13 @@ class _StatTile extends StatelessWidget {
           style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
-            color: AppColors.onBackground,
+            color: LiveQuizColors.textPrimary,
           ),
         ),
         const SizedBox(height: 2),
         Text(
           label,
-          style: TextStyle(fontSize: 11, color: Colors.grey.shade500),
+          style: const TextStyle(fontSize: 11, color: LiveQuizColors.textMuted),
         ),
       ],
     );
@@ -529,9 +529,9 @@ class _PrizeDistributionCard extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: LiveQuizColors.panel,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: LiveQuizColors.gold.withValues(alpha: 0.2)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.04),
@@ -562,7 +562,7 @@ class _PrizeDistributionCard extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.onBackground,
+                    color: LiveQuizColors.textPrimary,
                   ),
                 ),
               ),
@@ -577,7 +577,7 @@ class _PrizeDistributionCard extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.correct,
+                    color: LiveQuizColors.success,
                   ),
                 ),
               ),
@@ -586,7 +586,7 @@ class _PrizeDistributionCard extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             'Top ${prizes.length} players win cash prizes!',
-            style: TextStyle(fontSize: 12, color: Colors.grey.shade500),
+            style: const TextStyle(fontSize: 12, color: LiveQuizColors.textMuted),
           ),
           const SizedBox(height: 14),
 
@@ -639,12 +639,12 @@ class _PrizeDistributionCard extends StatelessWidget {
                           style: TextStyle(
                             fontWeight: FontWeight.w700,
                             fontSize: 14,
-                            color: isTop3 ? AppColors.onBackground : Colors.grey.shade700,
+                            color: isTop3 ? LiveQuizColors.textPrimary : LiveQuizColors.textMuted,
                           ),
                         ),
                         Text(
                           'Rank ${prize.rank}',
-                          style: TextStyle(fontSize: 11, color: Colors.grey.shade500),
+                          style: const TextStyle(fontSize: 11, color: LiveQuizColors.textMuted),
                         ),
                       ],
                     ),
@@ -731,7 +731,7 @@ class _RuleItem extends StatelessWidget {
                 text,
                 style: TextStyle(
                   fontSize: 13.5,
-                  color: Colors.grey.shade700,
+                  color: LiveQuizColors.textMuted,
                   height: 1.45,
                 ),
               ),
@@ -770,7 +770,8 @@ class _BottomActionBar extends StatelessWidget {
         bottom: MediaQuery.of(context).padding.bottom + 12,
       ),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: LiveQuizColors.blackSoft,
+        border: Border(top: BorderSide(color: LiveQuizColors.gold.withValues(alpha: 0.2))),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.08),
@@ -794,8 +795,8 @@ class _BottomActionBar extends StatelessWidget {
                   style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: Colors.white,
+                  backgroundColor: LiveQuizColors.gold,
+                  foregroundColor: LiveQuizColors.black,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                   elevation: 0,
                 ),
@@ -810,19 +811,19 @@ class _BottomActionBar extends StatelessWidget {
                     height: 52,
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     decoration: BoxDecoration(
-                      color: AppColors.correct.withValues(alpha: 0.08),
+                      color: LiveQuizColors.success.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(14),
-                      border: Border.all(color: AppColors.correct.withValues(alpha: 0.2)),
+                      border: Border.all(color: LiveQuizColors.success.withValues(alpha: 0.25)),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(Icons.check_circle, color: AppColors.correct, size: 18),
+                        const Icon(Icons.check_circle, color: LiveQuizColors.success, size: 18),
                         const SizedBox(width: 6),
                         Text(
                           'Joined',
                           style: TextStyle(
-                            color: AppColors.correct,
+                            color: LiveQuizColors.success,
                             fontWeight: FontWeight.w600,
                             fontSize: 14,
                           ),
@@ -852,10 +853,10 @@ class _BottomActionBar extends StatelessWidget {
                         style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                       ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: canStart ? AppColors.correct : Colors.grey.shade300,
-                        foregroundColor: canStart ? Colors.white : Colors.grey.shade600,
-                        disabledBackgroundColor: Colors.grey.shade200,
-                        disabledForegroundColor: Colors.grey.shade500,
+                        backgroundColor: canStart ? LiveQuizColors.success : LiveQuizColors.panelAlt,
+                        foregroundColor: canStart ? LiveQuizColors.black : LiveQuizColors.textMuted,
+                        disabledBackgroundColor: LiveQuizColors.panelAlt,
+                        disabledForegroundColor: LiveQuizColors.textMuted,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                         elevation: 0,
                       ),

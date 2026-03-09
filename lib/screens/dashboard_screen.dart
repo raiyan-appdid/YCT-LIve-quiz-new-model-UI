@@ -76,7 +76,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
     Game(
       id: '4',
       title: 'Sports Showdown',
-      description: 'Football, cricket, basketball and more — prove you\'re the ultimate sports fan!',
+      description:
+          'Football, cricket, basketball and more — prove you\'re the ultimate sports fan!',
       imageUrl: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=600',
       startTime: DateTime.now().add(const Duration(days: 1, hours: 18)),
       endTime: DateTime.now().add(const Duration(days: 1, hours: 19)),
@@ -217,7 +218,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Game? get _nextGame {
     final now = DateTime.now();
-    final upcoming = upcomingGames.where((g) => g.startTime.isAfter(now)).toList()..sort((a, b) => a.startTime.compareTo(b.startTime));
+    final upcoming = upcomingGames.where((g) => g.startTime.isAfter(now)).toList()
+      ..sort((a, b) => a.startTime.compareTo(b.startTime));
     return upcoming.isNotEmpty ? upcoming.first : null;
   }
 
@@ -378,8 +380,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
             style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           ),
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.white,
-            foregroundColor: AppColors.primary,
+            backgroundColor: LiveQuizColors.gold,
+            foregroundColor: LiveQuizColors.black,
             padding: const EdgeInsets.symmetric(vertical: 12),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             elevation: 0,
@@ -397,13 +399,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
             size: 18,
           ),
           label: Text(
-            canStart ? 'Start Game' : 'Starts in ${_timeUntilNextGame.inMinutes}m ${_timeUntilNextGame.inSeconds.remainder(60)}s',
+            canStart
+                ? 'Start Game'
+                : 'Starts in ${_timeUntilNextGame.inMinutes}m ${_timeUntilNextGame.inSeconds.remainder(60)}s',
             style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           ),
           style: ElevatedButton.styleFrom(
-            backgroundColor: canStart ? Colors.white : Colors.white.withValues(alpha: 0.25),
-            foregroundColor: canStart ? AppColors.primary : Colors.white.withValues(alpha: 0.7),
-            disabledBackgroundColor: Colors.white.withValues(alpha: 0.18),
+            backgroundColor: canStart ? LiveQuizColors.gold : Colors.white.withValues(alpha: 0.2),
+            foregroundColor: canStart ? LiveQuizColors.black : Colors.white.withValues(alpha: 0.7),
+            disabledBackgroundColor: Colors.white.withValues(alpha: 0.14),
             disabledForegroundColor: Colors.white.withValues(alpha: 0.55),
             padding: const EdgeInsets.symmetric(vertical: 12),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -419,7 +423,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       context: context,
       builder: (context) => Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        backgroundColor: Colors.white,
+        backgroundColor: LiveQuizColors.panel,
         child: Padding(
           padding: const EdgeInsets.all(24),
           child: Column(
@@ -430,21 +434,25 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 width: 64,
                 height: 64,
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.10),
+                  color: LiveQuizColors.gold.withValues(alpha: 0.12),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
                   game.entryFee > 0 ? Icons.account_balance_wallet : Icons.sports_esports,
-                  color: AppColors.primary,
+                  color: LiveQuizColors.gold,
                   size: 32,
                 ),
               ),
               const SizedBox(height: 16),
-              const Text('Confirm Entry', style: AppTextStyles.heading2),
+              const Text('Confirm Entry',
+                  style: TextStyle(
+                      color: LiveQuizColors.textPrimary,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold)),
               const SizedBox(height: 6),
               Text(
                 game.title,
-                style: AppTextStyles.body1.copyWith(color: Colors.grey[600]),
+                style: const TextStyle(color: LiveQuizColors.textMuted, fontSize: 16),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 20),
@@ -453,9 +461,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 decoration: BoxDecoration(
-                  color: AppColors.surface,
+                  color: LiveQuizColors.blackSoft,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.grey[200]!),
+                  border: Border.all(color: LiveQuizColors.gold.withValues(alpha: 0.2)),
                 ),
                 child: Column(
                   children: [
@@ -463,7 +471,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       'Entry Fee',
                       style: TextStyle(
                         fontSize: 12,
-                        color: Colors.grey[500],
+                        color: LiveQuizColors.textMuted,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -473,7 +481,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
-                        color: game.entryFee > 0 ? AppColors.primary : AppColors.correct,
+                        color: game.entryFee > 0 ? LiveQuizColors.gold : LiveQuizColors.success,
                       ),
                     ),
                   ],
@@ -487,8 +495,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     child: OutlinedButton(
                       onPressed: () => Navigator.pop(context),
                       style: OutlinedButton.styleFrom(
-                        foregroundColor: Colors.grey[600],
-                        side: BorderSide(color: Colors.grey[300]!),
+                        foregroundColor: LiveQuizColors.textPrimary,
+                        side: BorderSide(color: LiveQuizColors.gold.withValues(alpha: 0.35)),
                         padding: const EdgeInsets.symmetric(vertical: 14),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       ),
@@ -503,8 +511,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         _processPaymentAndJoin(game);
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                        foregroundColor: Colors.white,
+                        backgroundColor: LiveQuizColors.gold,
+                        foregroundColor: LiveQuizColors.black,
                         padding: const EdgeInsets.symmetric(vertical: 14),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                         elevation: 0,
@@ -531,17 +539,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
       barrierDismissible: false,
       builder: (context) => Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        backgroundColor: Colors.white,
+        backgroundColor: LiveQuizColors.panel,
         child: Padding(
           padding: const EdgeInsets.all(28),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const CircularProgressIndicator(color: AppColors.primary),
+              const CircularProgressIndicator(color: LiveQuizColors.gold),
               const SizedBox(height: 20),
               Text(
                 game.entryFee > 0 ? 'Processing Payment...' : 'Registering...',
-                style: AppTextStyles.body1,
+                style: const TextStyle(color: LiveQuizColors.textPrimary, fontSize: 16),
               ),
             ],
           ),
@@ -564,7 +572,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         barrierDismissible: false,
         builder: (ctx) => Dialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          backgroundColor: Colors.white,
+          backgroundColor: LiveQuizColors.panel,
           child: Padding(
             padding: const EdgeInsets.all(24),
             child: Column(
@@ -582,12 +590,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 const SizedBox(height: 16),
                 Text(
                   game.entryFee > 0 ? 'Payment Successful!' : 'Registered!',
-                  style: AppTextStyles.heading3.copyWith(color: AppColors.correct),
+                  style: AppTextStyles.heading3.copyWith(color: LiveQuizColors.success),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   'You are registered for "${game.title}"',
-                  style: AppTextStyles.body2,
+                  style: const TextStyle(color: LiveQuizColors.textMuted, fontSize: 14),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 24),
@@ -602,8 +610,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primary,
-                      foregroundColor: Colors.white,
+                      backgroundColor: LiveQuizColors.gold,
+                      foregroundColor: LiveQuizColors.black,
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       elevation: 0,
@@ -622,10 +630,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: LiveQuizColors.black,
       appBar: AppBar(
         title: const Text('YCT Quiz', style: TextStyle(fontWeight: FontWeight.bold)),
-        backgroundColor: AppColors.primary,
+        backgroundColor: LiveQuizColors.blackSoft,
+        foregroundColor: LiveQuizColors.gold,
         elevation: 0,
         actions: [
           IconButton(
@@ -653,7 +662,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 padding: const EdgeInsets.fromLTRB(20, 16, 20, 18),
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [AppColors.primary, AppColors.primaryVariant],
+                    colors: [LiveQuizColors.blackSoft, Color(0xFF302200), LiveQuizColors.black],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
@@ -666,7 +675,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ? const Center(
                         child: Text(
                           'No upcoming games',
-                          style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
+                          style: TextStyle(
+                              color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
                         ),
                       )
                     : Column(
@@ -674,7 +684,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.live_tv, color: Colors.white.withValues(alpha: 0.85), size: 16),
+                              Icon(Icons.live_tv,
+                                  color: Colors.white.withValues(alpha: 0.85), size: 16),
                               const SizedBox(width: 5),
                               Text(
                                 'NEXT LIVE GAME',
@@ -689,15 +700,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ),
                           const SizedBox(height: 8),
                           // Game title
-                          Text(
-                            _nextGame!.title,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
+                          // Text(
+                          //   _nextGame!.title,
+                          //   style: const TextStyle(
+                          //     color: Colors.white,
+                          //     fontSize: 18,
+                          //     fontWeight: FontWeight.bold,
+                          //   ),
+                          //   textAlign: TextAlign.center,
+                          // ),
                           const SizedBox(height: 8),
                           // Date + Time in one row
                           Row(
@@ -711,8 +722,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 ),
                                 child: Text(
                                   _getDateLabel(_nextGame!.startTime),
-                                  style: const TextStyle(
-                                    color: AppColors.primary,
+                                  style: TextStyle(
+                                    color: LiveQuizColors.black,
                                     fontSize: 11,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -737,202 +748,34 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ),
                           const SizedBox(height: 10),
                           // Entry fee & participants + status in one row
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              _infoPill(
-                                icon: Icons.currency_rupee,
-                                text: _nextGame!.entryFee > 0 ? '${_nextGame!.entryFee.toStringAsFixed(0)}' : 'FREE',
-                              ),
-                              const SizedBox(width: 8),
-                              _infoPill(
-                                icon: Icons.people_alt_outlined,
-                                text: '${_nextGame!.currentParticipants}/${_nextGame!.maxCapacity}',
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 12),
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.center,
+                          //   children: [
+                          //     _infoPill(
+                          //       icon: Icons.currency_rupee,
+                          //       text: _nextGame!.entryFee > 0 ? '${_nextGame!.entryFee.toStringAsFixed(0)}' : 'FREE',
+                          //     ),
+                          //     const SizedBox(width: 8),
+                          //     _infoPill(
+                          //       icon: Icons.people_alt_outlined,
+                          //       text: '${_nextGame!.currentParticipants}/${_nextGame!.maxCapacity}',
+                          //     ),
+                          //   ],
+                          // ),
+                          // const SizedBox(height: 12),
                           // Join / Start button
-                          _buildHeroActionButton(),
+                          // _buildHeroActionButton(),
                         ],
                       ),
               ),
 
-              const SizedBox(height: 24),
-
-              // ── Recent Game History Quick Access ──
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('My Recent Games', style: AppTextStyles.heading2),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => GameHistoryScreen(history: _gameHistory),
-                          ),
-                        );
-                      },
-                      child: Text(
-                        'See All',
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.primary,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 8),
-              if (_gameHistory.isEmpty)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(24),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(14),
-                      border: Border.all(color: Colors.grey.shade200),
-                    ),
-                    child: Column(
-                      children: [
-                        Icon(Icons.sports_esports_rounded, size: 36, color: Colors.grey.shade300),
-                        const SizedBox(height: 8),
-                        Text(
-                          'No games played yet',
-                          style: TextStyle(fontSize: 14, color: Colors.grey.shade500, fontWeight: FontWeight.w500),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              else
-                SizedBox(
-                  height: 130,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    itemCount: _gameHistory.length > 5 ? 5 : _gameHistory.length,
-                    separatorBuilder: (_, __) => const SizedBox(width: 12),
-                    itemBuilder: (context, index) {
-                      final h = _gameHistory[index];
-                      final isWinner = h.prizeWon != null && h.prizeWon! > 0;
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => GameHistoryScreen(history: _gameHistory),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          width: 160,
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(14),
-                            border: isWinner ? Border.all(color: AppColors.correct.withValues(alpha: 0.3)) : Border.all(color: Colors.grey.shade200),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.04),
-                                blurRadius: 6,
-                                offset: const Offset(0, 2),
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    width: 30,
-                                    height: 30,
-                                    decoration: BoxDecoration(
-                                      color: h.rank <= 3 ? Colors.amber.withValues(alpha: 0.15) : Colors.grey.shade100,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Center(
-                                      child: h.rank <= 3
-                                          ? Icon(Icons.emoji_events_rounded,
-                                              size: 16,
-                                              color: h.rank == 1
-                                                  ? const Color(0xFFFFD700)
-                                                  : h.rank == 2
-                                                      ? const Color(0xFFC0C0C0)
-                                                      : const Color(0xFFCD7F32))
-                                          : Text(
-                                              '#${h.rank}',
-                                              style: TextStyle(
-                                                fontSize: 11,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.grey.shade600,
-                                              ),
-                                            ),
-                                    ),
-                                  ),
-                                  const Spacer(),
-                                  if (isWinner)
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                      decoration: BoxDecoration(
-                                        color: AppColors.correct.withValues(alpha: 0.1),
-                                        borderRadius: BorderRadius.circular(6),
-                                      ),
-                                      child: Text(
-                                        '+₹${h.prizeWon!.toStringAsFixed(0)}',
-                                        style: const TextStyle(
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.correct,
-                                        ),
-                                      ),
-                                    ),
-                                ],
-                              ),
-                              const SizedBox(height: 10),
-                              Text(
-                                h.title,
-                                style: const TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.onBackground,
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                '${h.correctAnswers}/${h.totalQuestions} correct • ${h.totalPoints} pts',
-                                style: TextStyle(fontSize: 11, color: Colors.grey.shade500),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              const Spacer(),
-                              Text(
-                                _formatHistoryDate(h.playedAt),
-                                style: TextStyle(fontSize: 10, color: Colors.grey.shade400),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-
-              const SizedBox(height: 24),
-
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text('Upcoming Games', style: AppTextStyles.heading2),
+                child: const Text('Upcoming Games',
+                    style: TextStyle(
+                        color: LiveQuizColors.textPrimary,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold)),
               ),
 
               const SizedBox(height: 8),
